@@ -1,0 +1,57 @@
+Este es el directorio común asignado para que los distintos sistemas
+operativos alojados en este computador puedan compartir datos.
+
+En este espacio se encuentran carpetas comunes y archivos de configuración
+BASH para ser compartidos.
+
+--------
+Carpetas
+--------
+En este directorio se alojan los archivos que usarán los distintos
+sistemas operativos. Se organizan por carpetas comunmente usadas, como
+Downloads, Documents, Desktop, Pictures, Videos.
+
+Los sistemas operativos deben configurar sus escritorios para usar la
+carpeta Desktop, y crear symlinks hacia cada una de estas carpetas cuando
+corresponda.
+
+------------------------------------------
+Archivos de configuración BASH compartidos
+------------------------------------------
+
+Este directorio contiene los archivos .bashrc, .bash_aliases y .bash_env
+para ser usados en todas las particiones linux de este computador.
+
+El uso de estos archivos es como sigue:
+	- Cada .profile debe sourcear al .bashrc de este directorio en vez de
+	su copia local
+	- El .bashrc inicia configuraciones comunes, carga .bash_aliases
+	y .bash_env y finalmente sourcea el .bashrc local al SO para
+	aplicar posibles configuraciones personalizadas (ejemplo: ROS)
+
+Los skeletons recomendados a usar de .profile y .bashrc se encuentran
+alojados en $SHARED_HDD/.System/etc/skel .
+
+Descripción de archivos
+-----------------------
+
+.bashrc
+	Define opciones comunes del bash prompt, configuraciones de
+	colores de terminal, comportamiento de autocompletado y otras
+	características similares, e inclusión de archivos .bash_aliases
+	y mi propio archivo .bash_env.
+
+.bash_aliases
+	Aliases útiles que pienso poder usar en todos los sistemas.
+
+.bash_env
+	Variables de entorno que pretendo utilizar en todos lados, para
+	definir mayormente directorios de interés y algunas configuraciones.
+
+.bash_functions
+	Funciones útiles compartidas
+
+.prompt_format
+	Formato de colores para prompt de usuario. Define para usuario normal y para root.
+	
+

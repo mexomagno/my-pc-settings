@@ -1,0 +1,21 @@
+# Custom environment variables
+
+#
+
+# Shared disk mount point
+SHARED_FS="/media/SHARED_FS/.System"
+HOMEPATH="$SHARED_FS/$USER"
+SHARED_BASHRC="$HOMEPATH/.bashrc"
+SHARED_ALIASES="$HOMEPATH/.bash_aliases"
+SHARED_ENV="$HOMEPATH/.bash_env"
+SHARED_FUNCTIONS="$HOMEPATH/.bash_functions"
+SHARED_SCRIPTS="$HOMEPATH/scripts"
+
+# Git
+GIT_EDITOR=nano
+GIT_PAGER=less
+
+# Other
+ANDROID_PROJECTS="$HOMEPATH/AndroidStudioProjects"
+WORKSPACE="$HOMEPATH/Projects"
+RASPI_FS=/media/RASPI
