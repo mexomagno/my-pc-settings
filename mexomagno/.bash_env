@@ -17,5 +17,6 @@ GIT_PAGER=less
 
 # Other
 ANDROID_PROJECTS="$HOMEPATH/AndroidStudioProjects"
-WORKSPACE="$HOMEPATH/Projects"
+WORKSPACE="$HOMEPATH/Workspace"
 RASPI_FS=/media/RASPI
+MINECRAFT="'/media/WINDOWS_10/Users/mexomagno/Google\ Drive/Minecraft\ Servers/JKCTM'"

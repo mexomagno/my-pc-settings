@@ -18,6 +18,7 @@ alias df="df -h"
 alias cd..="cd .."
 alias shutdown="sudo shutdown -Ph 0"
 alias reboot="sudo reboot"
+alias logout="gnome-session-quit"
 
 # Git
 alias gs="git status"
