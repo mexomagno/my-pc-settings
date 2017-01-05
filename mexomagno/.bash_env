@@ -22,3 +22,4 @@ RASPI_FS=/media/RASPI
 MINECRAFT="'/media/WINDOWS_10/Users/mexomagno/Google\ Drive/Minecraft\ Servers/JKCTM'"
 GNOME_PANEL="/usr/share/applications"
 WORK_VPS_HOST="testvps01.ecgo.cl"
+PC_SETTINGS_REPO="$SHARED_FS/mexomagno/Workspace/my-pc-settings"
