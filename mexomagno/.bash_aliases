@@ -32,6 +32,7 @@ alias gl="git log --oneline"
 alias raspi="ssh -p $RASPI_SSHPORT $RASPI_PUBLIC_DOMAIN"
 alias raspi-l="ssh -p $RASPI_SSHPORT $RASPI_PRIVATE_IP"
 alias bodega="ssh $WORK_WEBDNS"
+alias digitalocean="ssh $WORK_VPS_HOST"
 alias mount-raspi-l="sudo sshfs -o port=$RASPI_SSHPORT,umask=027,gid=100,uid=1000,IdentityFile="$IDENTITY_FILE_LOCATION,allow_other,reconnect,auto_cache,ServerAliveInterval=20" $RASPI_ADMIN_USER@$RASPI_PRIVATE_IP:/ $RASPI_FS"
 alias mount-raspi="sudo sshfs -o port=$RASPI_SSHPORT,umask=027,gid=100,uid=1000,IdentityFile="$IDENTITY_FILE_LOCATION,allow_other,reconnect,auto_cache,ServerAliveInterval=20" $RASPI_ADMIN_USER@$RASPI_PUBLIC_DOMAIN:/ $RASPI_FS"
 alias unmount-raspi="sudo fusermount -u "$RASPI_FS""
@@ -42,6 +43,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias minecraft-server="cd '$WINDOWS_10/Users/$USER/Google Drive/Minecraft Servers/JKCTM' && ./run.bat"
 alias mount-iso="sudo mount -o loop"
 alias syslog="sudo cat /var/log/syslog"
+alias mpc-l="mpc -h $MPD_PASS@$RASPI_PRIVATE_IP	-p $MPD_PORT"
+alias mpc="mpc -h $MPD_PASS@$RASPI_PUBLIC_DOMAIN -p $MPD_PORT"
 
 # TODO
 #alias vlc="mpv"
