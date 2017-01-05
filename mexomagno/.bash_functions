@@ -39,7 +39,7 @@ constrain(){
 		return 0
 	fi
 }
-brightness() {
+brightness_m() {
 	# Change the screen brightness. 
 	# Usage: 
 	#	brightness ([value from 0 to 100]|+|-)
