@@ -56,7 +56,7 @@ change_brightness(){
 		return
 	fi
 	# Case for - or +
-	RAW_STEP="$((MAX_VAL_RAW/10))"
+	RAW_STEP="$((MAX_VAL_RAW/40))"
 	NEW_VAL_RAW=CURRENT_VAL_RAW
 	# if is not a number, error
 	isNumber $input

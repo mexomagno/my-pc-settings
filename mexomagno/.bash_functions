@@ -6,13 +6,7 @@
 # Some are pretty useful :D
 ###########################################################
 
-isNumber() {
-	if [ "$1" -eq "$1" ] 2>/dev/null; then
-		return 1
-	else
-		return 0
-	fi
-}
+
 img2web(){
 	# Prepare image for website
 	# Usage: img2web <inputfile> <size> <outputdir>
