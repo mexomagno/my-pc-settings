@@ -13,12 +13,12 @@ alias l="ls"
 alias ll="ls -l"
 alias la="ls -A"
 alias lla="ls -lA"
-alias du="du -h"
 alias df="df -h"
 alias cd..="cd .."
 alias shutdown="sudo shutdown -Ph 0"
 alias reboot="sudo reboot"
 alias logout="gnome-session-quit"
+alias install="sudo apt-get install"
 
 # Git
 alias gs="git status"
@@ -40,11 +40,12 @@ alias anakena="ssh $DCC_USER@$DCC_DOMAIN"
 alias resrc=". $HOME/.bashrc"
 # Provided in skel. Use like "command; alert"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias minecraft-server="cd '$WINDOWS_10/Users/$USER/Google Drive/Minecraft Servers/JKCTM' && ./run.bat"
+alias minecraft-server="cd '$SHARED_FS/mexomagno/Google Drive/Minecraft Servers/JKCTM' && ./run.bat"
 alias mount-iso="sudo mount -o loop"
 alias syslog="sudo cat /var/log/syslog"
 alias mpc-l="mpc -h $MPD_PASS@$RASPI_PRIVATE_IP	-p $MPD_PORT"
 alias mpc="mpc -h $MPD_PASS@$RASPI_PUBLIC_DOMAIN -p $MPD_PORT"
+alias network-manager-restart="sudo service network-manager restart"
 
 # TODO
 #alias vlc="mpv"
