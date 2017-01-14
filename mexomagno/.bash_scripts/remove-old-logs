@@ -1,0 +1,40 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+#
+# Provides: 	remove-old-logs
+# Required-Start:	$local_fs
+# Required-Stop: 	$local_fs
+# Default-Start: 	2 3 5
+# Default-Stop: 	0 1 6
+# Short-Description: Script designed to remove system's old log files	
+# Description: Script in charge of removing old logs
+# The way it judges what scripts should be erased is by
+# considering the ones ending with a number extension
+# e.g.: syslog.1, syslog.4
+# and those already compressed
+# e.g.: syslog.1.gz
+#
+### END INIT INFO
+
+# Define logs folder
+LOG_FOLDER="/var/log"
+
+# Define search pattern
+SEARCH_PATTERN="(*\.[0-9]$|*\.gz$)"
+
+case $1 in
+	start)
+		# previous size
+		size_before="$(du -s $LOG_FOLDER | cut -d'/' -f1)"
+		# Remove files
+		find $LOG_FOLDER -print | egrep -i $SEARCH_PATTERN | xargs /bin/rm 
+		# Done
+		size_after="$(du -s $LOG_FOLDER | cut -d'/' -f1)"
+		echo "Erased $(($size_after-$size_before)) b worth of old log files"
+		;;
+	*)
+		echo "Usage: remove-old-logs start"
+		exit 3
+		;;
+esac
