@@ -69,6 +69,23 @@ change_brightness(){
 			# Brightness down
 			NEW_VAL_RAW="$(($CURRENT_VAL_RAW-$RAW_STEP))"
 			NEW_VAL_RAW="$(constrain $NEW_VAL_RAW 1 $MAX_VAL_RAW)"
+		elif [ "$input" == "toggle" ]; then
+			# toggle brightness on or off
+			value_file_dir="/etc/mexomagno/screen/prev_status"
+			OLD_VAL_RAW="$(cat $value_file_dir)"
+			if [ "$OLD_VAL_RAW" == "" ]; then
+				# No value was stored. Toggle off
+				echo -n $CURRENT_VAL_RAW > $value_file_dir
+				echo 0 | tee "$DIR/brightness" > /dev/null
+				echo "Toggled screen power OFF"
+			else
+				echo $OLD_VAL_RAW | tee "$DIR/brightness" > /dev/null
+				echo -n "" > $value_file_dir
+				echo "Toggled screen power ON (last value: $OLD_VAL_RAW)"
+			fi
+			unset OLD_VAL_RAW
+			unset value_file_dir
+			return
 		else
 			echo "Error: '$input' is not a number"
 			return

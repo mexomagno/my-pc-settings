@@ -1,0 +1,18 @@
+[tlp]
+# tlp start : Starts Linux Advanced Power Management
+# tlp-stat -s : Shows Linux Advanced Power Management status
+# tlp-stat -b : Battery status
+# 
+# [ wifi | bluetooth | wwan ] [ on | off | toggle ]
+
+[git]
+$ git stash : Puts current git changes in a "stash", leaving HEAD clean. 
+$ git apply : Apply last stashed changes to current HEAD
+
+[bash]
+$ df -h : Shows mounted disks status
+$ du -h : Shows current directory space used, recursively
+$ du -sh : Shows current directory used space
+$ ps aux : Currently running processes
+$ ps -fea : Mega detailed list of currently running processes
+$ uname -a : System information
