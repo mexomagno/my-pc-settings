@@ -1,0 +1,25 @@
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+
+# Live boot for Tails
+menuentry 'Tails 2.11 x32' {
+	# insmod part_msdos
+	# insmod ext2
+	# insmod loopback
+	# insmod iso9660
+	# set root='(hd0,msdos1)'
+	set iso="/boot/iso/tails-i386-2.11.iso"
+	search --no-floppy --fs-uuid --set root c5ea7536-1590-45e9-b9dc-74b342a8f9dd
+	loopback loop ${iso}
+	linux (loop)/live/vmlinuz boot=live config fromiso=/dev/sda6/boot/iso/tails-i386-2.11.iso noswap nopersistent noprompt toram=filesystem.squashfs timezone=Etc/UTC block.events_dfl_poll_msecs=1000 splash nox11autologin module=Tails pci=nomsi
+	initrd (loop)/live/initrd.img
+}
+menuentry 'Fedora 25 x64' {
+	set iso="/boot/iso/Fedora-Workstation-Live-x86_64-25-1.3.iso"
+	loopback loop $iso
+	linux (loop)/isolinux/vmlinuz0 root=live:CDLABEL=Fedora-Live-Desktop-x64-25 rootfstype=auto ro rd.live.image quiet rhgb rd.luks=0 rd.md=0 rd.dm=0 iso-scan/filename=${iso}
+	initrd (loop)/isolinux/initrd0.img
+}
