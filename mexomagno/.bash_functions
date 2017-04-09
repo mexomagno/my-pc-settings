@@ -48,7 +48,7 @@ new-gnome-launcher-app(){
 		read exec_path
 	fi
 	# Check if file exists
-	if [ ! -f "$exec_path" ] || [ ! -f "$(pwd)/$exec_path" ]; then
+	if [ ! -f "$exec_path" ] && [ ! -f "$(pwd)/$exec_path" ]; then
 		echo "File doesn't exist"
 		unset exec_path
 		return 1

@@ -15,8 +15,8 @@ HISTCONTROL=ignoreboth
 # Append to the history file, dont overwrite
 shopt -s histappend
 # History file sizes
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=2000
+HISTFILESIZE=3000
 # Always check for window size and redraw if necessary
 shopt -s checkwinsize
 # Make "less" pager more friendly for non-text input files
