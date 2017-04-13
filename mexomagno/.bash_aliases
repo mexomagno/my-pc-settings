@@ -43,7 +43,7 @@ alias resrc=". $HOME/.bashrc"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias minecraft-server="cd '$SHARED_FS/mexomagno/Google Drive/Minecraft Servers/JKCTM' && ./run.bat"
 alias mount-iso="sudo mount -o loop"
-alias syslog="sudo cat /var/log/syslog"
+alias syslog="sudo tail -f /var/log/syslog"
 alias mpc-l="mpc -h $MPD_PASS@$RASPI_PRIVATE_IP	-p $MPD_PORT"
 alias mpc="mpc -h $MPD_PASS@$RASPI_PUBLIC_DOMAIN -p $MPD_PORT"
 alias network-manager-restart="sudo service network-manager restart"
