@@ -28,6 +28,7 @@ alias gc="git commit -m"
 alias gd="git diff"
 alias gb="git branch"
 alias gl="git log --oneline"
+alias gf="git fetch --prune"
 
 # Shortcuts
 alias raspi="if [ check_if_at_home ]; then ssh -p $RASPI_SSHPORT $RASPI_PRIVATE_IP; else ssh -p $RASPI_SSHPORT $RASPI_PUBLIC_DOMAIN; fi"

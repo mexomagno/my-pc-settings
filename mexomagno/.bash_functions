@@ -6,7 +6,22 @@
 # Some are pretty useful :D
 ###########################################################
 
+# Bash utilities
+array_contains () { 
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array}"; do
+        if [[ $element == $seeking ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
 
+
+# Custom functions
 img2web(){
 	# Prepare image for website
 	# Usage: img2web <inputfile> <size> <outputdir>
@@ -169,24 +184,72 @@ say() {
 	#
 	# Supported languages: spanish_la, spanish_es, french, english_us, english_uk, german, italian, portuguese, swedish, dutch
 	# Supported language variants depend on the chosen language
-
-	if [ -z $1 ]; then
+	if [ -z "$1" ]; then
 		echo "You must enter some text"
 		return 1
 	fi
 
 	DEFAULT_SPEED=1  # Supported: Integers from -4 to 9
 	SUPPORTED_LANGUAGES=( spanish_la spanish_es french english_us english_uk german italian portuguese swedish dutch )
-	SUPPORTED_SPEEDS=( "-4" "-3" "-2" "-1" 0 1 2 3 4 5 6 7 8 9 )
+	MIN_SPEED="-4"
+	MAX_SPEED="9"
 	API_KEY="b98x9xlfs54ws4k0wc0o8g4gwc0w8ss"
-	# Voices declaration via tuples like ( voice_code voice_version )
+	# Voices declaration via tuples like ( voice_code voice_version voice_name voice_variant_index )
 	# English US
-	v_sharon=( 42 0 )
-	v_ava=( 1 4 )
-	v_tracy=( 37 0 )
+	v_sharon=( 42 0 "Sharon" 1 )
+	v_ava=( 1 4 "Ava" 2 )
+	v_tracy=( 37 0 "Tracy" 3 )
+	v_ryan=( 33 0 "Ryan" 4 )
+	v_tom=( 0 4 "Tom" 5 )
+	v_samantha=( 2 4 "Samantha" 6 )
+	v_rod=( 41 0 "Rod" 7 )
+	# English UK
+	v_rachel=( 32 0 "Rachel" 1 )
+	v_peter=( 31 0 "Peter" 2 )
+	v_graham=( 25 0 "Graham" 3 )
+	v_serena=( 4 4 "Serena" 4 )
+	v_daniel=( 3 4 "Daniel" 5 )  # Brittishest
+	v_charles=( 2 0 "Charles" 6 )
+	v_audrey=( 3 0 "Audrey" 7 )  # Brittisher
+	# Spanish ES
+	v_rosa=( 20 0 "Rosa" 1 )
+	v_alberto=( 19 0 "Alberto" 2 )
+	v_monica=( 7 4 "Monica" 3 )
+	v_jorge=( 8 4 "Jorge" 4 )  # Loquendo
+	n_spanish_es_voices=4
 	# Spanish LA
-	v_juan=( 5 4 )
-	v_paulina=( 6 4 )
+	v_juan=( 5 4 "Juan" 1 )
+	v_paulina=( 6 4 "Paulina" 2 )
+	n_spanish_la_voices=2
+	# French
+	v_alain=( 7 0 "Alain" 1 )
+	v_juliete=( 8 0 "Juliete" 2 )
+	v_nicolas=( 9 4 "Nicolas" 3 )
+	v_chantal=( 10 4 "Chantal" 4 )
+	v_bruno=( 22 0 "Bruno" 5 )
+	v_alice=( 21 0 "Alice" 6 )
+	v_louice=( 43 0 "Louice" 7 )
+	n_french_voices=7
+	# German
+	v_reiner=( 5 0 "Reiner" 1 )
+	v_klara=( 6 0 "Klara" 2 )
+	v_klaus=( 28 0 "Klaus" 3 )
+	v_sarah=( 35 0 "Sarah" 4 )
+	v_yannick=( 12 4 "Yannick" 5 )
+	v_petra=( 11 4 "Petra" 6 )
+	n_german_voices=6
+	# Italian
+	v_vittorio=( 36 0 "Vittorio" 1 )
+	v_chiara=( 23 0 "Chiara" 2 )
+	v_federica=( 14 4 "Federica" 3 )
+	v_luca=( 13 4 "Luca" 4 )
+	n_italian_voices=4
+	# Portuguese
+	v_celia=( 44 0 "Celia" 1 )
+	v_luciana=( 16 4 "Luciana" 2 )
+	v_joana=( 18 4 "Joana" 3 )
+	v_catarina=( 17 4 "Catarina" 4 )
+	n_portuguese_voices=4
 
 	DEFAULT_VOICE=( ${v_juan[@]} )
 
@@ -201,8 +264,59 @@ say() {
 			language_variant="1"
 		fi
 		# Check if language is supported
-		if [ "$language" == "spanish_la" ]; then
+		if [ "$language" == "english_us" ]; then
 			if [ "$language_variant" == "1" ]; then	
+				voice=( ${v_sharon[@]} )
+			elif [ "$language_variant" == "2" ]; then	
+				voice=( ${v_ava[@]} )
+			elif [ "$language_variant" == "3" ]; then	
+				voice=( ${v_tracy[@]} )
+			elif [ "$language_variant" == "4" ]; then	
+				voice=( ${v_ryan[@]} )
+			elif [ "$language_variant" == "5" ]; then	
+				voice=( ${v_tom[@]} )
+			elif [ "$language_variant" == "6" ]; then	
+				voice=( ${v_samantha[@]} )
+			elif [ "$language_variant" == "7" ]; then	
+				voice=( ${v_rod[@]} )
+			else
+				echo "Unsupported variant '$language_variant' for language '$language'"
+				return 1
+			fi
+		elif [ "$language" == "english_uk" ]; then
+			if [ "$language_variant" == "1" ]; then	
+				voice=( ${v_rachel[@]} )
+			elif [ "$language_variant" == "2" ]; then	
+				voice=( ${v_peter[@]} )
+			elif [ "$language_variant" == "3" ]; then	
+				voice=( ${v_graham[@]} )
+			elif [ "$language_variant" == "4" ]; then	
+				voice=( ${v_serena[@]} )
+			elif [ "$language_variant" == "5" ]; then	
+				voice=( ${v_daniel[@]} )
+			elif [ "$language_variant" == "6" ]; then	
+				voice=( ${v_charles[@]} )
+			elif [ "$language_variant" == "7" ]; then	
+				voice=( ${v_audrey[@]} )
+			else
+				echo "Unsupported variant '$language_variant' for language '$language'"
+				return 1
+			fi
+		elif [ "$language" == "spanish_es" ]; then
+			if [ "$language_variant" == "1" ]; then	
+				voice=( ${v_rosa[@]} )
+			elif [ "$language_variant" == "2" ]; then	
+				voice=( ${v_alberto[@]} )
+			elif [ "$language_variant" == "3" ]; then	
+				voice=( ${v_monica[@]} )
+			elif [ "$language_variant" == "4" ]; then	
+				voice=( ${v_jorge[@]} )
+			else
+				echo "Unsupported variant '$language_variant' for language '$language'"
+				return 1
+			fi
+		elif [ "$language" == "spanish_la" ]; then
+			if [ "$language_variant" == "1" ]; then
 				voice=( ${v_juan[@]} )
 			elif [ "$language_variant" == "2" ]; then	
 				voice=( ${v_paulina[@]} )
@@ -210,13 +324,64 @@ say() {
 				echo "Unsupported variant '$language_variant' for language '$language'"
 				return 1
 			fi
-		elif [ "$language" == "english_us" ]; then
+		elif [ "$language" == "french" ]; then
 			if [ "$language_variant" == "1" ]; then	
-				voice=( ${v_sharon[@]} )
+				voice=( ${v_alain[@]} )
 			elif [ "$language_variant" == "2" ]; then	
-				voice=( ${v_ava[@]} )
+				voice=( ${v_juliete[@]} )
 			elif [ "$language_variant" == "3" ]; then	
-				voice=( ${v_tracy[@]} )
+				voice=( ${v_nicolas[@]} )
+			elif [ "$language_variant" == "4" ]; then	
+				voice=( ${v_chantal[@]} )
+			elif [ "$language_variant" == "5" ]; then	
+				voice=( ${v_bruno[@]} )
+			elif [ "$language_variant" == "6" ]; then	
+				voice=( ${v_alice[@]} )
+			elif [ "$language_variant" == "7" ]; then	
+				voice=( ${v_louice[@]} )
+			else
+				echo "Unsupported variant '$language_variant' for language '$language'"
+				return 1
+			fi
+		elif [ "$language" == "german" ]; then
+			if [ "$language_variant" == "1" ]; then	
+				voice=( ${v_reiner[@]} )
+			elif [ "$language_variant" == "2" ]; then	
+				voice=( ${v_klara[@]} )
+			elif [ "$language_variant" == "3" ]; then	
+				voice=( ${v_klaus[@]} )
+			elif [ "$language_variant" == "4" ]; then	
+				voice=( ${v_sarah[@]} )
+			elif [ "$language_variant" == "5" ]; then	
+				voice=( ${v_yannick[@]} )
+			elif [ "$language_variant" == "6" ]; then	
+				voice=( ${v_petra[@]} )
+			else
+				echo "Unsupported variant '$language_variant' for language '$language'"
+				return 1
+			fi
+		elif [ "$language" == "italian" ]; then
+			if [ "$language_variant" == "1" ]; then	
+				voice=( ${v_vittorio[@]} )
+			elif [ "$language_variant" == "2" ]; then	
+				voice=( ${v_chiara[@]} )
+			elif [ "$language_variant" == "3" ]; then	
+				voice=( ${v_federica[@]} )
+			elif [ "$language_variant" == "4" ]; then	
+				voice=( ${v_luca[@]} )
+			else
+				echo "Unsupported variant '$language_variant' for language '$language'"
+				return 1
+			fi
+		elif [ "$language" == "portuguese" ]; then
+			if [ "$language_variant" == "1" ]; then	
+				voice=( ${v_celia[@]} )
+			elif [ "$language_variant" == "2" ]; then	
+				voice=( ${v_luciana[@]} )
+			elif [ "$language_variant" == "3" ]; then	
+				voice=( ${v_joana[@]} )
+			elif [ "$language_variant" == "4" ]; then	
+				voice=( ${v_catarina[@]} )
 			else
 				echo "Unsupported variant '$language_variant' for language '$language'"
 				return 1
@@ -225,36 +390,38 @@ say() {
 			echo "Unsupported language: $language"
 			return 1
 		fi
-		# set speed
-		if [ -z $3 ]; then
-			speed=$DEFAULT_SPEED
-		else
-			speed=$3
-			if [ "${SUPPORTED_SPEEDS[@]}" == "${SUPPORTED_SPEEDS[@]#$speed}" ]; then
-				echo "Unsupported speed: $speed"
-				return 1
-			fi
+	fi
+	echo "Using voice: '${voice[2]}'"
+	# set speed
+	if [ -z $3 ]; then
+		speed=$DEFAULT_SPEED
+	else
+		speed=$3
+		if (( $MIN_SPEED > $3 || $3 > $MAX_SPEED )); then
+		# if [ "${SUPPORTED_SPEEDS[@]}" == "${SUPPORTED_SPEEDS[@]#"$speed"}" ]; then
+			echo "Unsupported speed: $speed"
+			return 1
 		fi
 	fi
-
+	echo "Voice speed: $speed"
 	voice_code="${voice[0]}"
 	voice_version="${voice[1]}"
 	extra_parameter="?"
 	if [ "$voice_version" == "4" ]; then
-		extra_parameter="macspeak=apikey=$API_KEY&"
+		extra_parameter="macspeak?apikey=$API_KEY&"
 	fi
 	url="https://api.naturalreaders.com/v"$voice_version"/tts/"$extra_parameter"src=pw&r="$voice_code"&s="$speed"&t=$1"
 	echo $url
 	OUTPUT_FILE="/tmp/tts.mp3"
-	## wget -qO- "$url" > $OUTPUT_FILE
+	wget -qO- "$url" > $OUTPUT_FILE
 	sleep 0.1
 	# Check if the mp3 was generated
 	if [ ! -f "$OUTPUT_FILE" ]; then
 		echo "Error: Your voice could not be generated. Check if the voice service is working as expected"
-		echo "Your request URL was \'$url\'"
+		echo "Your request URL was '$url'"
 		return 1
 	fi
-	mpg123 "$OUTPUT_FILE"
+	mpg321 -q "$OUTPUT_FILE"
 	rm "$OUTPUT_FILE"
 	return 0
 }
