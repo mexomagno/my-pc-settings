@@ -32,7 +32,7 @@ new-gnome-launcher-app(){
 	# It does the following:
 	# 	- Add symlink to /usr/bin
 	# 	- Add entry for gnome launcher
- 
+
 	# Check if root
 	# if [ "$(id -u)" != "0" ]; then 
 	# 	echo "Must run as root"
@@ -153,6 +153,123 @@ new-gnome-launcher-app(){
 	unset gnome_panel_entry_path
 	return 0
 }
+
+say() {
+	# Usage: say "text to say" language[:language_variant] speed
+	#
+	# Example:
+	#          say "Hello world"
+	#          say "Hello world" english_us 
+	#          say "Hello world" english_us 1
+	#          say "Hello world" english_us:2
+	#          say "Hello world" english_us:2 1
+	#
+	# Uses the naturalreaders.com api
+	# NaturalReaders has free and paid voices. For the paid ones, it uses an api key, and parameter v4. For others, no api key is required and uses parameter v0
+	#
+	# Supported languages: spanish_la, spanish_es, french, english_us, english_uk, german, italian, portuguese, swedish, dutch
+	# Supported language variants depend on the chosen language
+
+	if [ -z $1 ]; then
+		echo "You must enter some text"
+		return 1
+	fi
+
+	DEFAULT_SPEED=1  # Supported: Integers from -4 to 9
+	SUPPORTED_LANGUAGES=( spanish_la spanish_es french english_us english_uk german italian portuguese swedish dutch )
+	SUPPORTED_SPEEDS=( "-4" "-3" "-2" "-1" 0 1 2 3 4 5 6 7 8 9 )
+	API_KEY="b98x9xlfs54ws4k0wc0o8g4gwc0w8ss"
+	# Voices declaration via tuples like ( voice_code voice_version )
+	# English US
+	v_sharon=( 42 0 )
+	v_ava=( 1 4 )
+	v_tracy=( 37 0 )
+	# Spanish LA
+	v_juan=( 5 4 )
+	v_paulina=( 6 4 )
+
+	DEFAULT_VOICE=( ${v_juan[@]} )
+
+	# Choose voice according to the settings
+	if [ -z $2 ]; then
+		voice=( ${DEFAULT_VOICE[@]} )
+	else
+		# Parse voice selection
+		language="$(echo $2 | cut -d':' -f1)"
+		language_variant="$(echo $2 | cut -d':' -f2)"
+		if [ -z $language_variant ] || [ "$language_variant" == "$language" ]; then
+			language_variant="1"
+		fi
+		# Check if language is supported
+		if [ "$language" == "spanish_la" ]; then
+			if [ "$language_variant" == "1" ]; then	
+				voice=( ${v_juan[@]} )
+			elif [ "$language_variant" == "2" ]; then	
+				voice=( ${v_paulina[@]} )
+			else
+				echo "Unsupported variant '$language_variant' for language '$language'"
+				return 1
+			fi
+		elif [ "$language" == "english_us" ]; then
+			if [ "$language_variant" == "1" ]; then	
+				voice=( ${v_sharon[@]} )
+			elif [ "$language_variant" == "2" ]; then	
+				voice=( ${v_ava[@]} )
+			elif [ "$language_variant" == "3" ]; then	
+				voice=( ${v_tracy[@]} )
+			else
+				echo "Unsupported variant '$language_variant' for language '$language'"
+				return 1
+			fi
+		else
+			echo "Unsupported language: $language"
+			return 1
+		fi
+		# set speed
+		if [ -z $3 ]; then
+			speed=$DEFAULT_SPEED
+		else
+			speed=$3
+			if [ "${SUPPORTED_SPEEDS[@]}" == "${SUPPORTED_SPEEDS[@]#$speed}" ]; then
+				echo "Unsupported speed: $speed"
+				return 1
+			fi
+		fi
+	fi
+
+	voice_code="${voice[0]}"
+	voice_version="${voice[1]}"
+	extra_parameter="?"
+	if [ "$voice_version" == "4" ]; then
+		extra_parameter="macspeak=apikey=$API_KEY&"
+	fi
+	url="https://api.naturalreaders.com/v"$voice_version"/tts/"$extra_parameter"src=pw&r="$voice_code"&s="$speed"&t=$1"
+	echo $url
+	OUTPUT_FILE="/tmp/tts.mp3"
+	## wget -qO- "$url" > $OUTPUT_FILE
+	sleep 0.1
+	# Check if the mp3 was generated
+	if [ ! -f "$OUTPUT_FILE" ]; then
+		echo "Error: Your voice could not be generated. Check if the voice service is working as expected"
+		echo "Your request URL was \'$url\'"
+		return 1
+	fi
+	mpg123 "$OUTPUT_FILE"
+	rm "$OUTPUT_FILE"
+	return 0
+}
+
+check_if_at_home() {
+	# Get router's mac address
+	CURRENT_GATEWAY_MAC="$(arp -n | grep `route -n | awk '/UG/{print $2}'` -s 2>/dev/null | awk '{print tolower($3)}')"
+	if [ "$CURRENT_GATEWAY_MAC" != "$HOME_GATEWAY_MAC" ]; then
+		false
+	else
+		true
+	fi
+}
+
+
 # TODO
 # encrypt(){
 #	
