@@ -8,6 +8,7 @@
 
 # Bash utilities
 array_contains () { 
+	# Usage: array_contains array element
     local array="$1[@]"
     local seeking=$2
     local in=1
@@ -411,7 +412,7 @@ say() {
 		extra_parameter="macspeak?apikey=$API_KEY&"
 	fi
 	url="https://api.naturalreaders.com/v"$voice_version"/tts/"$extra_parameter"src=pw&r="$voice_code"&s="$speed"&t=$1"
-	echo $url
+	#echo $url
 	OUTPUT_FILE="/tmp/tts.mp3"
 	wget -qO- "$url" > $OUTPUT_FILE
 	sleep 0.1
@@ -434,6 +435,35 @@ check_if_at_home() {
 	else
 		true
 	fi
+}
+
+stream_to_bmo() {
+	# Meant to be used like:
+	# stream_to_bmo 'file/to/stream.mp3'
+
+	# Check if there are arguments
+	if [ -z $1 ]; then
+		echo "Nothing to stream"
+		return 0
+	fi
+	# Check if the file exists
+	if [ ! -f "$1" ]; then
+		echo "The file doesn't exist"
+		return 1
+	fi
+	filename="$1"
+	file_extension="${filename##*.}"
+	file_extension="$(echo $file_extension | awk '{print tolower($1)}')"
+	# SUPPORTED_FILES=( flac mp3 wav wma m3u aac ogg )
+	# # Check if the file extension is supported
+	# if [ ! $(array_contains SUPPORTED_FILES file_extension) ]; then
+	# 	echo "The file is not supported"
+	# 	return 1
+	# fi
+
+	# Stream using VLC
+	echo "Broadcasting... Tune to :8080/radio.mp3"
+	cvlc "$1" --sout '#transcode{vcodec=none,acodec=mp3,ab=192,channels=2,samplerate=44100}:http{dst=:8080/radio.mp3}' :sout-keep
 }
 
 
