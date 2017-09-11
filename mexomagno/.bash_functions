@@ -21,6 +21,10 @@ array_contains () {
     return $in
 }
 
+get_current_ip (){
+	ip="$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')"
+	echo $ip
+}
 
 # Custom functions
 img2web(){
@@ -441,6 +445,11 @@ stream_to_bmo() {
 	# Meant to be used like:
 	# stream_to_bmo 'file/to/stream.mp3'
 
+	# Check if in local network
+	if [ ! check_if_at_home ]; then
+		echo "Currently you can only stream to BMO over the local network. Sorry :("
+		return 1
+	fi
 	# Check if there are arguments
 	if [ -z $1 ]; then
 		echo "Nothing to stream"
@@ -462,8 +471,18 @@ stream_to_bmo() {
 	# fi
 
 	# Stream using VLC
-	echo "Broadcasting... Tune to :8080/radio.mp3"
-	cvlc "$1" --sout '#transcode{vcodec=none,acodec=mp3,ab=192,channels=2,samplerate=44100}:http{dst=:8080/radio.mp3}' :sout-keep
+	STREAM_PORT="8080"
+	STREAM_ADDR="/radio.mp3"
+	echo "Broadcasting... Tune to :$STREAM_PORT$STREAM_ADDR"
+	# Make stream
+	SCREEN_PROCESS_NAME="bmo_stream"
+	screen -S $SCREEN_PROCESS_NAME -d -m -L cvlc "$1" --sout '#transcode{vcodec=none,acodec=mp3,ab=192,channels=2,samplerate=44100}:http{dst=:8080/radio.mp3}' :sout-keep
+	#echo "The process was daemonized on 'screen'. Reattach by issing 'screen -r $SCREEN_PROCESS_NAME"
+	# Send request to bmo to play the audio stream
+	sleep 0.5
+	CURRENT_IP="$( get_current_ip )"
+	ssh -p $RASPI_SSHPORT $RASPI_ADMIN_USER@$RASPI_PRIVATE_IP "mpc add http://$CURRENT_IP:$STREAM_PORT$STREAM_ADDR; mpc play"
+	screen -r $SCREEN_PROCESS_NAME
 }
 
 
