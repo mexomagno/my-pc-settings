@@ -451,7 +451,7 @@ stream_to_bmo() {
 		return 1
 	fi
 	# Check if there are arguments
-	if [ -z $1 ]; then
+	if [ -z "$1" ]; then
 		echo "Nothing to stream"
 		return 0
 	fi
@@ -483,8 +483,10 @@ stream_to_bmo() {
 	CURRENT_IP="$( get_current_ip )"
 	ssh -p $RASPI_SSHPORT $RASPI_ADMIN_USER@$RASPI_PRIVATE_IP "mpc add http://$CURRENT_IP:$STREAM_PORT$STREAM_ADDR; mpc play"
 	screen -r $SCREEN_PROCESS_NAME
+	ssh -p $RASPI_SSHPORT $RASPI_ADMIN_USER@$RASPI_PRIVATE_IP "mpc clear;"
+	echo "Finished broadcast"
 }
-
+alias stream-to-bmo="stream_to_bmo"
 
 # TODO
 # encrypt(){
