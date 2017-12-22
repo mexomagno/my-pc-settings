@@ -13,7 +13,6 @@ alias l="ls"
 alias ll="ls -l"
 alias la="ls -A"
 alias lla="ls -lA"
-alias df="df -h"
 alias cd..="cd .."
 alias mv="mv -v"
 alias shutdown="sudo shutdown -Ph 0"
@@ -33,7 +32,6 @@ alias gf="git fetch --prune"
 # Shortcuts
 alias raspi="if [ check_if_at_home ]; then ssh -p $RASPI_SSHPORT $RASPI_PRIVATE_IP; else ssh -p $RASPI_SSHPORT $RASPI_PUBLIC_DOMAIN; fi"
 # alias raspi-l="ssh -p $RASPI_SSHPORT $RASPI_PRIVATE_IP"
-alias bmo="raspi"
 alias bodega-blumos="ssh $WORK_WEBDNS"
 alias digitalocean="ssh $WORK_VPS_HOST"
 # alias mount-raspi-l="sudo sshfs -o port=$RASPI_SSHPORT,umask=027,gid=100,uid=1000,IdentityFile="$IDENTITY_FILE_LOCATION,allow_other,reconnect,auto_cache,ServerAliveInterval=20" $RASPI_ADMIN_USER@$RASPI_PRIVATE_IP:/ $RASPI_FS"
@@ -58,3 +56,6 @@ alias mpc="if [ check_if_at_home ]; then MPDHOST=$RASPI_PRIVATE_IP; else MPDHOST
 #alias beep-when-internet
 #alias play-anything
 #alias play-random
+
+# BMO Project
+alias bmo="raspi"

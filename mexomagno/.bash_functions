@@ -488,6 +488,39 @@ stream_to_bmo() {
 }
 alias stream-to-bmo="stream_to_bmo"
 
+bmo_say (){
+	if [ -z "$1" ]; then
+		echo "Nothing to do"
+		return 0
+	fi
+	# Say text on bmo server
+	ssh -p $RASPI_SSHPORT $RASPI_ADMIN_USER@$RASPI_PRIVATE_IP "source .bash_functions; say '$1'"
+}
+
+show_disk_space(){
+	# Shows remaining disk space each second
+	echo "Remaining disk space"
+	while [ 1 ]; do
+		# Get windows disk space in bytes and human readable
+		ws_b="$(df /dev/sda4 | tail -1 |  awk '{print $4}')"
+		ws_h="$(df -h /dev/sda4 | tail -1 |  awk '{print $4}')"
+		# Get ubuntu disk space
+		us_b="$(df /dev/sda6 | tail -1 |  awk '{print $4}')"
+		us_h="$(df -h /dev/sda6 | tail -1 |  awk '{print $4}')"
+		# Print
+		echo -e "\tWindows partition:\t $ws_b ($ws_h)"
+		echo -e "\tUbuntu partition:\t $us_b ($us_h)"
+		sleep 1
+		tput cuu1
+		tput el
+		tput cuu1
+		tput el
+	done
+}
+alias show-disk-space="show_disk_space"
+
+
+
 # TODO
 # encrypt(){
 #	
