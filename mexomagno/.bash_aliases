@@ -59,3 +59,6 @@ alias mpc="if [ check_if_at_home ]; then MPDHOST=$RASPI_PRIVATE_IP; else MPDHOST
 
 # BMO Project
 alias bmo="raspi"
+
+# Python
+alias load-env="if [ -f ENV/bin/activate ]; then . ENV/bin/activate; else echo 'No virtualenv found'; fi"
