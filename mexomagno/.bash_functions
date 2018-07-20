@@ -507,10 +507,16 @@ show_disk_space(){
 		# Get ubuntu disk space
 		us_b="$(df /dev/sda6 | tail -1 |  awk '{print $4}')"
 		us_h="$(df -h /dev/sda6 | tail -1 |  awk '{print $4}')"
+		# Get shared disk space
+		sh_b="$(df /dev/sdb2 | tail -1 |  awk '{print $4}')"
+		sh_h="$(df -h /dev/sdb2 | tail -1 |  awk '{print $4}')"
 		# Print
 		echo -e "\tWindows partition:\t $ws_b ($ws_h)"
 		echo -e "\tUbuntu partition:\t $us_b ($us_h)"
+		echo -e "\tShared partition:\t $sh_b ($sh_h)"
 		sleep 1
+		tput cuu1
+		tput el
 		tput cuu1
 		tput el
 		tput cuu1
@@ -518,6 +524,10 @@ show_disk_space(){
 	done
 }
 alias show-disk-space="show_disk_space"
+
+pyless(){
+	pygmentize "$1" | less -r
+}
 
 
 
@@ -531,3 +541,5 @@ alias show-disk-space="show_disk_space"
 # img2thumb(){
 # Create thumbnail of image
 #}
+
+

@@ -16,9 +16,10 @@ alias lla="ls -lA"
 alias cd..="cd .."
 alias mv="mv -v"
 alias shutdown="sudo shutdown -Ph 0"
-alias reboot="sudo reboot"
+#alias reboot="sudo reboot"
 alias logout="gnome-session-quit"
 alias install="sudo apt-get install"
+alias powersave="sudo pm-powersave true"
 
 # Git
 alias gs="git status"
@@ -26,7 +27,7 @@ alias ga="git add"
 alias gc="git commit -m"
 alias gd="git diff"
 alias gb="git branch"
-alias gl="git log --oneline"
+alias gl="git log --stat --decorate"
 alias gf="git fetch --prune"
 
 # Shortcuts
@@ -41,13 +42,19 @@ alias umount-raspi="sudo fusermount -u "$RASPI_FS"; echo \"Unmounted '$RASPI_FS'
 alias mount-bmo="mount-raspi"
 alias umount-bmo="umount-raspi"
 alias anakena="ssh $DCC_USER@$DCC_DOMAIN"
+alias mount-anakena="sudo sshfs -o IdentityFile=/home/mexomagno/.ssh/id_rsa,reconnect,auto_cache,no_readahead,ServerAliveInterval=20,Compression=no,umask=027,gid=100,uid=1000,allow_other acastro@anakena.dcc.uchile.cl:public_www /media/ANAKENA"
 alias resrc=". $HOME/.bashrc"
 # Provided in skel. Use like "command; alert"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias minecraft-server="cd '$SHARED_FS/mexomagno/Google Drive/Minecraft Servers/JKCTM' && ./run.bat"
 alias syslog="sudo tail -f /var/log/syslog"
 alias mpc="if [ check_if_at_home ]; then MPDHOST=$RASPI_PRIVATE_IP; else MPDHOST=$RASPI_PUBLIC_DOMAIN; fi; mpc -h $MPD_PASS@$MPDHOST -p $MPD_PORT"
 # alias mpc="mpc -h $MPD_PASS@$RASPI_PUBLIC_DOMAIN -p $MPD_PORT"
+
+# Minecraft
+alias minecraft-server="cd '$SHARED_FS/mexomagno/Google Drive/Minecraft Servers/JKCTM' && ./run_linux.sh"
+# refresh duckdns ip reference
+alias duck=". $SHARED_ENV; $HOME/.duck.sh ; cat $HOME/.duck.log"
+
 
 # TODO
 #alias vlc="mpv"
@@ -62,3 +69,4 @@ alias bmo="raspi"
 
 # Python
 alias load-env="if [ -f ENV/bin/activate ]; then . ENV/bin/activate; else echo 'No virtualenv found'; fi"
+alias pycat="pygmentize"
