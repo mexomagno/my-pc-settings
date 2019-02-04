@@ -58,7 +58,7 @@ alias duck=". $SHARED_ENV; $HOME/.duck.sh ; cat $HOME/.duck.log"
 
 # TODO
 #alias vlc="mpv"
-#alias beep
+alias beep="paplay /usr/share/sounds/ubuntu/ringtones/Alarm\ clock.ogg"
 #alias beep-forever
 #alias beep-when-internet
 #alias play-anything
