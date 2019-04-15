@@ -64,8 +64,7 @@ new-gnome-launcher-app(){
 	if [ "$?" -gt "1" ]; then
 		exec_path="$1"
 	else
-		echo -n "Enter executable file name: "
-		read exec_path
+		read -e -p "Enter executable file name: " exec_path
 	fi
 	# Check if file exists
 	if [ ! -f "$exec_path" ] && [ ! -f "$(pwd)/$exec_path" ]; then
@@ -108,11 +107,9 @@ new-gnome-launcher-app(){
 		echo -n "Enter a short description: "
 		read APP_DESCRIPTION
 		# ask for an icon file
-		echo -n "Enter absolute path to an icon image (empty for none): "
-		read APP_ICON
+		read -e -p  "Enter absolute path to an icon image (empty for none): " APP_ICON
 		while [ "$APP_ICON" != "" ] && [ ! -f "$APP_ICON" ]; do
-			echo -n "File doesn't exist. Retry: "
-			read APP_ICON
+			read -e -p "File doesn't exist. Retry: " APP_ICON
 		done 
 		# ask if it needs a terminal
 		echo -n "Will this program need a terminal? [y/n]: "
